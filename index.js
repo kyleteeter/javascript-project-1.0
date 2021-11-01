@@ -7,7 +7,7 @@
 // Object.entries
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
 
-
+const root = document.getElementById('root');
 
 
 fetch("./students.json")
@@ -24,28 +24,52 @@ function handleErrors(response) {
 
 
 function displayStudents(data) {
-    // console.log(data)
-    const root = document.getElementById('root')
     data.forEach(obj => {
-        // console.log("object" ,obj)
         Object.entries(obj).forEach(([key, value]) => {
             if (key === 'parents') {
-                displayParents(value)
+                displayParentsHelper(value)
                 return
             }
             const div = document.createElement('div')
             div.innerHTML = `${key} ${value}`
-            root.appendChild(div)
+            this.root.appendChild(div)
         })
     })
 }
 
-function displayParents(parentObj) {
-    parentObj.forEach(obj => {
-        Object.entries(obj).forEach(([key, value]) => {
-            const div = document.createElement('div')
-            div.innerHTML = `${key} ${value}`
-            root.appendChild(div)
-        })
+function displayParentsHelper(parentObj){
+    if (parentObj.constructor.name === "Array") {
+        parentObj.forEach(obj => { displayParent(obj)})
+    } else {
+        displayParent(parentObj);
+    }
+}
+
+function displayParent(parentObj) {
+    Object.entries(parentObj).forEach(([key, value]) => {
+        const div = document.createElement('span')
+        div.innerHTML = `${key} ${value}`
+        this.root.appendChild(div)
     })
 }
+
+// function displayParents(parentObj) {
+//     // console.log(parentObj);
+//     if (parentObj.constructor.name === "Array"){
+//         parentObj.forEach(obj => {
+//             Object.entries(obj).forEach(([key, value]) => {
+//                 const div = document.createElement('span')
+//                 div.innerHTML = `${key} ${value}`
+//                 this.root.appendChild(div)
+//                 // console.log(key)
+//             })
+//         })
+    
+//     } else {
+//         Object.entries(parentObj).forEach(([key, value]) => {
+//             const div = document.createElement('span')
+//             div.innerHTML = `${key} ${value}`
+//             this.root.appendChild(div)
+//         })
+//     }
+// }
