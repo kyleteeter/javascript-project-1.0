@@ -58,13 +58,11 @@ function displayParentsHelper(parentObj){
             let[newParentInfo, newParentName] = displayParent(obj);
             parentName.push(newParentName)
             parentInfo.push(newParentInfo)
-            // response += `<div class="parent">${displayParent(obj)}</div>`
         })
     } else {
         [parentInfo, parentName] = displayParent(parentObj);
         console.log('parentNameInside', parentInfo)
     }
-    
     return [parentInfo, parentName];
 }
 
