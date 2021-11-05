@@ -21,7 +21,6 @@ function handleErrors(response) {
     return response.json()
 }
 
-
 function displayStudents(data) {
     data.forEach(obj => {
         const details = document.createElement('details')
@@ -61,7 +60,6 @@ function displayParentsHelper(parentObj){
         })
     } else {
         [parentInfo, parentName] = displayParent(parentObj);
-        console.log('parentNameInside', parentInfo)
     }
     return [parentInfo, parentName];
 }
@@ -75,14 +73,15 @@ function displayParent(obj) {
             if (key === 'name'){
                 parentName.push(value)
             } else {
-            tempStorage += (`<p>${key}:<br> ${value}</p>`)
+                tempStorage += (`<p>${key}:<br> ${value}</p>`)
             }
     })
     parentInfo.push(tempStorage)
-    
     return [parentInfo, parentName];
 }
 
+
+// Example to show Hossam or starting logic
 // function displayParents(parentObj) {
 //     // console.log(parentObj);
 //     if (parentObj.constructor.name === "Array"){
@@ -92,11 +91,8 @@ function displayParent(obj) {
 //                 div.innerHTML = `${key} ${value}`
 //                 this.root.appendChild(div)
 //                 console.log(key)
-//             })
-            
-//         })
-        
-    
+//             })           
+//         })   
 //     } else {
 //         Object.entries(parentObj).forEach(([key, value]) => {
 //             if ( key === 'name'){
