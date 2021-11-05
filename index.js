@@ -25,50 +25,64 @@ function handleErrors(response) {
 function displayStudents(data) {
     data.forEach(obj => {
         const details = document.createElement('details')
-        const parentSection = document.createElement('p')
+        const parentSection = document.createElement('div')
+        parentSection.className = "parent-wrapper";
+        const summary = document.createElement('summary')
         Object.entries(obj).forEach(([key, value]) => {
-            if (key === 'parents') {
-                parentSection.innerHTML = displayParentsHelper(value)
-                details.appendChild(parentSection)            
-            } else if ( key === 'name'){
-                const summary = document.createElement('summary')
-                summary.innerHTML = `${value}`
-                details.appendChild(summary)
-                this.root.appendChild(details)
+            console.log(key, value)
+            if (key === 'name') {
+                let studentName = value;
+                summary.innerHTML += `<span><p class="key">${studentName}</p></span>`
+            } if (key === 'parents') {
+                let [parentInfo, parentName] = displayParentsHelper(value);
+                for (i = 0; i  < parentName.length; i++){
+                    parentSection.innerHTML += `<details class="parent"><summary>${parentName[i]}</summary>${parentInfo[i]}</details>`
+                }
             }
-            
+            else {
+                details.innerHTML += `<span><p class="key">${key}:<br>${value}</p></span>`
+            }
+            details.appendChild(parentSection)
         })
+        details.appendChild(summary)
+        this.root.appendChild(details)
     })
 }
 
 
 function displayParentsHelper(parentObj){
-    let response;
+    let parentInfo = []; 
+    let parentName = [];
     if (parentObj.constructor.name === "Array") {
         parentObj.forEach(obj => { 
-            // console.log('in Parent helper', displayParent(obj));
-            response = displayParent(obj)
+            let[newParentInfo, newParentName] = displayParent(obj);
+            parentName.push(newParentName)
+            parentInfo.push(newParentInfo)
+            // response += `<div class="parent">${displayParent(obj)}</div>`
         })
     } else {
-        // console.log('in Parent helper', displayParent(parentObj));
-        response = displayParent(parentObj);
+        [parentInfo, parentName] = displayParent(parentObj);
+        console.log('parentNameInside', parentInfo)
     }
-    return response;
+    
+    return [parentInfo, parentName];
 }
 
 
 function displayParent(obj) {
-    let response; 
+    let parentInfo = []; 
+    let parentName = [];
+    let tempStorage = [];
     Object.entries(obj).forEach(([key, value]) => {
-        if ( key === 'name'){
-            response = value;
-            // const div = document.createElement('h4')
-            // div.innerHTML = `parent: ${value}`
-            // this.root.appendChild(div)
-        }  
+            if (key === 'name'){
+                parentName.push(value)
+            } else {
+            tempStorage += (`<p>${key}:<br> ${value}</p>`)
+            }
     })
-    // console.log("in display parent", response)
-    return response;
+    parentInfo.push(tempStorage)
+    
+    return [parentInfo, parentName];
 }
 
 // function displayParents(parentObj) {
